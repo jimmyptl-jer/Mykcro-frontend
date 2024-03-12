@@ -21,6 +21,8 @@ import MentalHealth from './pages/Services/MentalHealth'
 import Operations from './pages/Services/Operations'
 import PublicRelations from './pages/Services/PublicRelations'
 import SocialMedia from './pages/Services/SocialMedia'
+import BusinessPage from './pages/BusinessPage'
+import AddBusinessPage from './pages/AddBusinessPage'
 
 const App = () => {
   return (
@@ -33,6 +35,8 @@ const App = () => {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/business' element={<BusinessPage />} />
+        <Route path='/add-business' element={<AddBusinessPage />} />
         <Route path='/services' element={<Services />} />
 
         {/* Routes for each service */}

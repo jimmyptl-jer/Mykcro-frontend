@@ -102,3 +102,32 @@ export const deleteTask = async (taskId) => {
     throw new Error("Failed to delete task");
   }
 };
+
+export const registerBusiness = async (data) => {
+  const response = await fetch(`${API_BASE_URL}/api/businesses`, {
+    method: 'POST',
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  });
+
+  const responseBody = await response.json();
+
+  if (!response.ok) {
+    throw new Error(responseBody.message);
+  }
+};
+
+export const getAllBusinesses = async () => {
+  const response = await fetch(`${API_BASE_URL}/api/businesses`, {
+    credentials: "include"
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch businesses");
+  }
+
+  return response.json();
+};
