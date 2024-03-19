@@ -104,7 +104,51 @@ export const deleteTask = async (taskId) => {
 };
 
 export const registerBusiness = async (data) => {
+  const { serviceId, ...businessData } = data; // Destructure serviceId from data
+
   const response = await fetch(`${API_BASE_URL}/api/businesses`, {
+    method: 'POST',
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ ...businessData, serviceId }) // Include serviceId in the request body
+  });
+
+  const responseBody = await response.json();
+
+  if (!response.ok) {
+    throw new Error(responseBody.message);
+  }
+};
+
+
+export const getAllBusinesses = async () => {
+  const response = await fetch(`${API_BASE_URL}/api/businesses`, {
+    credentials: "include"
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch businesses");
+  }
+
+  return response.json();
+};
+
+export const getBusinessesByService = async (serviceId) => {
+  const response = await fetch(`${API_BASE_URL}/api/businesses/${serviceId}`, {
+    credentials: 'include'
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch businesses for this service');
+  }
+
+  return response.json();
+};
+
+export const registerService = async (data) => {
+  const response = await fetch(`${API_BASE_URL}/api/services`, {
     method: 'POST',
     credentials: "include",
     headers: {
@@ -120,14 +164,25 @@ export const registerBusiness = async (data) => {
   }
 };
 
-export const getAllBusinesses = async () => {
-  const response = await fetch(`${API_BASE_URL}/api/businesses`, {
+export const getAllServices = async () => {
+  const response = await fetch(`${API_BASE_URL}/api/services`, {
     credentials: "include"
   });
 
   if (!response.ok) {
-    throw new Error("Failed to fetch businesses");
+    throw new Error("Failed to fetch services");
   }
 
   return response.json();
+};
+
+export const deleteService = async (serviceId) => {
+  const response = await fetch(`${API_BASE_URL}/api/services/${serviceId}`, {
+    method: 'DELETE',
+    credentials: "include"
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to delete service");
+  }
 };

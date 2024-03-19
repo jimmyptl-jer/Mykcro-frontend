@@ -23,6 +23,8 @@ import PublicRelations from './pages/Services/PublicRelations'
 import SocialMedia from './pages/Services/SocialMedia'
 import BusinessPage from './pages/BusinessPage'
 import AddBusinessPage from './pages/AddBusinessPage'
+import ServiceManagement from './pages/ServiceManagement'
+import ServicesPage from './pages/ServicesPage'
 
 const App = () => {
   return (
@@ -38,6 +40,8 @@ const App = () => {
         <Route path='/business' element={<BusinessPage />} />
         <Route path='/add-business' element={<AddBusinessPage />} />
         <Route path='/services' element={<Services />} />
+        <Route path='/services/:serviceId' element={<ServicesPage />} />
+        <Route path='/manage-services' element={<ServiceManagement />} />
 
         {/* Routes for each service */}
         <Route path='/accounting' element={<Accounting />} />

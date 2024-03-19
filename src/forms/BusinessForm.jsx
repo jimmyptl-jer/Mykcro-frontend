@@ -1,31 +1,33 @@
-import { useForm } from "react-hook-form";
-import { Button } from 'flowbite-react'
-import { useMutation } from 'react-query'
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { Button } from 'flowbite-react';
+import { useMutation } from 'react-query';
+import * as apiClient from '../http';
+import { useAppContext } from '../context/AppContext';
+import { useNavigate } from 'react-router-dom';
 
-import * as apiClient from '../http'
-import { useAppContext } from '../context/AppContext'
-import { useNavigate } from 'react-router-dom'
-
-const BusinessForm = () => {
-  const { showToast } = useAppContext()
-  const navigate = useNavigate()
+const BusinessForm = ({ serviceId }) => {
+  const { showToast } = useAppContext();
+  const navigate = useNavigate();
 
   const { mutate, isLoading } = useMutation(apiClient.registerBusiness, {
     onSuccess: () => {
-      showToast({ message: "Business added successfully", type: "SUCCESS" });
+      showToast({ message: 'Business added successfully', type: 'SUCCESS' });
       navigate('/');
     },
-    onError: () => showToast({ message: "Sorry! Something went wrong", type: "ERROR" })
+    onError: () => showToast({ message: 'Sorry! Something went wrong', type: 'ERROR' }),
   });
 
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const onSubmit = handleSubmit(async (data) => {
-    mutate(data);
+    // Include the serviceId in the request payload
+    mutate({ ...data, serviceId }); // Make sure serviceId is included here
   });
 
   return (
     <form className="flex flex-col gap-4" onSubmit={onSubmit}>
+      {/* Business form fields */}
       <label className="text-gray-700 text-sm font-bold">
         Business Name
         <input
@@ -113,7 +115,7 @@ const BusinessForm = () => {
       <label className="text-gray-700 text-sm font-bold">
         Description
         <textarea
-          rows={10}
+          rows={4}
           className="border rounded w-full py-1 px-2 font-normal"
           {...register("description", { required: "This field is required" })}
         />
@@ -122,10 +124,9 @@ const BusinessForm = () => {
         )}
       </label>
 
-      <Button type='submit' gradientDuoTone='purpleToPink'>
-        {isLoading ? "Adding..." : 'Add'}
+      <Button type="submit" gradientDuoTone="purpleToPink">
+        {isLoading ? 'Adding...' : 'Add'}
       </Button>
-
     </form>
   );
 };

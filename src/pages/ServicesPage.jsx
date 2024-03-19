@@ -1,43 +1,60 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Using useNavigate for redirection
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import BusinessForm from '../forms/BusinessForm';
+import * as apiClient from '../http';
 
-const Services = () => {
-  const navigate = useNavigate(); // Initialize navigate for redirection
+const ServicePage = () => {
+  const { serviceId } = useParams();
+  const [businesses, setBusinesses] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // Add loading state
 
-  const tiles = ['Accounting', 'Administration', 'Banking', 'Government', 'Human-Resource', 'Legal', 'Marketing', 'Mental-Health', 'Operations', 'Public-Relations', 'Social-Media'];
+  useEffect(() => {
+    const fetchBusinesses = async () => {
+      try {
+        const data = await apiClient.getBusinessesByService(serviceId);
+        setBusinesses(data);
+      } catch (error) {
+        console.error('Error fetching businesses:', error);
+      } finally {
+        setIsLoading(false); // Set loading state to false when data is fetched
+      }
+    };
 
-  const [selectedTile, setSelectedTile] = useState('');
-
-  // Function to handle tile click and redirect to respective page
-  const handleTileClick = (tile) => {
-    setSelectedTile(tile);
-    navigate(`/${tile.toLowerCase()}`); // Redirect to the selected tile's page
-  };
+    fetchBusinesses();
+  }, [serviceId]);
 
   return (
-    <div className="md:m-8 lg:m-8 flex justify-center">
-      <div className="container">
-        <h2 className="text-2xl text-center mb-10 text-purple-500">Existing Service</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div className="container mx-auto mt-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Business form */}
+        <div>
+          <h2 className="text-2xl text-center mb-6 text-purple-500">Add Business</h2>
+          <BusinessForm serviceId={serviceId} />
+        </div>
 
-          {tiles.map((tile, index) => (
-            <div key={index} className="p-4">
-              <div className="flex flex-col border-l-4 border border-slate-700 transition duration-300 transform hover:scale-105 hover:border-purple-500 hover:bg-purple-500 hover:text-white shadow-md p-4">
-                <button
-                  key={tile}
-                  type="button"
-                  onClick={() => handleTileClick(tile)}
-                >
-                  {tile}
-                </button>
-              </div>
-            </div>
-          ))}
-
+        {/* Render business details */}
+        <div>
+          <h2 className="text-2xl text-center mb-6 text-purple-500">Business Details</h2>
+          {isLoading ? ( // Show loading message while fetching data
+            <div>Loading...</div>
+          ) : businesses.length > 0 ? ( // Check if businesses array is not empty
+            <ul className="list-disc ml-8">
+              {businesses.map((business) => (
+                <li key={business._id}>
+                  <div className="font-semibold">{business.businessName}</div>
+                  <div>Email: {business.email}</div>
+                  <div>Address: {business.address}, {business.city}, {business.province}, {business.country}, {business.postalCode}</div>
+                  <div>Description: {business.description}</div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div>No businesses found for this service. Please add one.</div> // Display message when no businesses found
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default Services;
+export default ServicePage;
