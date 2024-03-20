@@ -1,19 +1,16 @@
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Button } from 'flowbite-react';
 import { useMutation } from 'react-query';
 import * as apiClient from '../http';
 import { useAppContext } from '../context/AppContext';
-import { useNavigate } from 'react-router-dom';
 
 const BusinessForm = ({ serviceId }) => {
   const { showToast } = useAppContext();
-  const navigate = useNavigate();
+
 
   const { mutate, isLoading } = useMutation(apiClient.registerBusiness, {
     onSuccess: () => {
       showToast({ message: 'Business added successfully', type: 'SUCCESS' });
-      navigate('/');
     },
     onError: () => showToast({ message: 'Sorry! Something went wrong', type: 'ERROR' }),
   });
@@ -26,14 +23,14 @@ const BusinessForm = ({ serviceId }) => {
   });
 
   return (
-    <form className="flex flex-col gap-4" onSubmit={onSubmit}>
+    <form className="flex flex-col gap-4 bg-purple-100 shadow-md p-6" onSubmit={onSubmit}>
       {/* Business form fields */}
-      <label className="text-gray-700 text-sm font-bold">
+      <label className="text-black text-sm font-bold">
         Business Name
         <input
           type="text"
-          className="border rounded w-full py-1 px-2 font-normal"
-          {...register("businessName", { required: "This field is required" })}
+          className="border-b border-purple-500 w-full py-1 px-2 font-normal focus:outline-none"
+          {...register("businessName")}
         />
         {errors.businessName && (
           <span className="text-red-500">{errors.businessName.message}</span>
@@ -41,11 +38,23 @@ const BusinessForm = ({ serviceId }) => {
       </label>
 
       <label className="text-gray-700 text-sm font-bold">
+        Business Link
+        <input
+          type="text"
+          className="border-b border-purple-500 w-full py-1 px-2 font-normal focus:outline-none"
+          {...register("businessLink")}
+        />
+        {errors.businessLink && (
+          <span className="text-red-500">{errors.businessLink.message}</span>
+        )}
+      </label>
+
+      <label className="text-gray-700 text-sm font-bold">
         Email
         <input
           type="text"
-          className="border rounded w-full py-1 px-2 font-normal"
-          {...register("email", { required: "This field is required" })}
+          className="border-b border-purple-500 w-full py-1 px-2 font-normal focus:outline-none"
+          {...register("email")}
         />
         {errors.email && (
           <span className="text-red-500">{errors.email.message}</span>
@@ -56,8 +65,8 @@ const BusinessForm = ({ serviceId }) => {
         Address
         <input
           type="text"
-          className="border rounded w-full py-1 px-2 font-normal"
-          {...register("address", { required: "This field is required" })}
+          className="border-b border-purple-500 w-full py-1 px-2 font-normal focus:outline-none"
+          {...register("address")}
         />
         {errors.address && (
           <span className="text-red-500">{errors.address.message}</span>
@@ -68,8 +77,8 @@ const BusinessForm = ({ serviceId }) => {
         City
         <input
           type="text"
-          className="border rounded w-full py-1 px-2 font-normal"
-          {...register("city", { required: "This field is required" })}
+          className="border-b border-purple-500 w-full py-1 px-2 font-normal focus:outline-none"
+          {...register("city")}
         />
         {errors.city && (
           <span className="text-red-500">{errors.city.message}</span>
@@ -80,8 +89,8 @@ const BusinessForm = ({ serviceId }) => {
         Province
         <input
           type="text"
-          className="border rounded w-full py-1 px-2 font-normal"
-          {...register("province", { required: "This field is required" })}
+          className="border-b border-purple-500 w-full py-1 px-2 font-normal focus:outline-none"
+          {...register("province")}
         />
         {errors.province && (
           <span className="text-red-500">{errors.province.message}</span>
@@ -92,8 +101,8 @@ const BusinessForm = ({ serviceId }) => {
         Country
         <input
           type="text"
-          className="border rounded w-full py-1 px-2 font-normal"
-          {...register("country", { required: "This field is required" })}
+          className="border-b border-purple-500 w-full py-1 px-2 font-normal focus:outline-none"
+          {...register("country")}
         />
         {errors.country && (
           <span className="text-red-500">{errors.country.message}</span>
@@ -104,8 +113,8 @@ const BusinessForm = ({ serviceId }) => {
         Postal Code
         <input
           type="text"
-          className="border rounded w-full py-1 px-2 font-normal"
-          {...register("postalCode", { required: "This field is required" })}
+          className="border-b border-purple-500 w-full py-1 px-2 font-normal focus:outline-none"
+          {...register("postalCode")}
         />
         {errors.postalCode && (
           <span className="text-red-500">{errors.postalCode.message}</span>
@@ -116,8 +125,8 @@ const BusinessForm = ({ serviceId }) => {
         Description
         <textarea
           rows={4}
-          className="border rounded w-full py-1 px-2 font-normal"
-          {...register("description", { required: "This field is required" })}
+          className="border-b border-purple-500 w-full py-1 px-2 font-normal focus:outline-none"
+          {...register("description")}
         />
         {errors.description && (
           <span className="text-red-500">{errors.description.message}</span>

@@ -57,12 +57,6 @@ const Header = () => {
             <li className="hidden md:block">
               <Link to="/dashboard" className={`text-black ${path === '/dashboard' ? 'font-bold' : ''}`} onClick={closeMenu}>Dashboard</Link>
             </li>
-            <li className="hidden md:block">
-              <Link to="/services" className={`text-black ${path === '/service' ? 'font-bold' : ''}`} onClick={closeMenu}>Services</Link>
-            </li>
-            <li className="hidden md:block">
-              <Link to="/business" className={`text-black ${path === '/business' ? 'font-bold' : ''}`} onClick={closeMenu}>Business</Link>
-            </li>
             <li>
               <Link to="/login" className="text-black hover:text-purple-500 font-semibold" onClick={closeMenu}>Login</Link>
             </li>
