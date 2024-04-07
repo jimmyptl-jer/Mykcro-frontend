@@ -1,17 +1,11 @@
-import AboutMe from "../components/AboutMe"
-import Hero from "../components/Hero"
-import Tiles from "../components/Tiles"
+import Hero from "../components/Hero";
 
 const Home = () => {
-
   return (
-    <div className="m-5 md:m-0 lg:m-0">
+    <div className="m-5 md:m-0 lg:m-0" style={{ background: "linear-gradient(to bottom, #87CEEB, #87CEFA)" }}>
       <Hero />
-      <AboutMe />
-      <Tiles />
     </div>
+  );
+};
 
-  )
-}
-
-export default Home
+export default Home;

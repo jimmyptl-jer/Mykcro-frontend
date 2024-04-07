@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getAllTasks, deleteTask, updateTask } from '../http'; // Assuming you have deleteTask and updateTask functions in your http module
+import { getAllTasks, deleteTask } from '../http'; // Assuming you have deleteTask function in your http module
 
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
@@ -34,18 +34,6 @@ const TaskList = () => {
     }
   };
 
-  const handleModify = async (taskId, updatedTaskData) => {
-    try {
-      setLoading(true);
-      await updateTask(taskId, updatedTaskData);
-      fetchTasks(); // Fetch tasks again after modification
-      setLoading(false);
-    } catch (error) {
-      setError('Error modifying task');
-      setLoading(false);
-    }
-  };
-
   // Function to format the date to a more user-readable format
   const formatDate = (dateString) => {
     if (!dateString) return '';
@@ -62,15 +50,14 @@ const TaskList = () => {
       ) : (
         <ul>
           {tasks.map(task => (
-            <li key={task._id} className="py-2 border-b border-gray-200 flex items-center justify-between">
-              <div>
+            <li key={task._id} className="py-4 border-b border-gray-200">
+              <div className="mb-2">
                 <span className="text-lg font-semibold">{task.taskName}</span>
-                <span className="text-sm text-gray-500 ml-2">{formatDate(task.date)}</span>
               </div>
-              <div>
-                <button className="bg-violet-200 text-violet-700 px-3 py-1 rounded-md mr-2" onClick={() => handleDelete(task._id)}>Delete</button>
-                {/* <button className="bg-violet-200 text-violet-700 px-3 py-1 rounded-md" onClick={() => handleModify(task._id, { taskName: 'Updated Task Name' })}>Modify</button> */}
-              </div>
+              <div className="text-sm text-gray-500 mb-2">Service: {task.service}</div>
+              <div className="text-sm text-gray-500 mb-2">Priority: {task.priority}</div>
+              <div className="text-sm text-gray-500">Date: {formatDate(task.date)}</div>
+              <button className="bg-red-200 text-red-700 px-3 py-1 rounded-md mt-2" onClick={() => handleDelete(task._id)}>Delete</button>
             </li>
           ))}
         </ul>

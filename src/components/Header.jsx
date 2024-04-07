@@ -23,7 +23,7 @@ const Header = () => {
           className="self-center text-lg sm:text-xl font-semibold flex items-center hover:underline"
           style={{ color: 'black' }}
         >
-          Myckro
+          Mykcro
         </Link>
 
         {/* Hamburger menu button for mobile view */}
